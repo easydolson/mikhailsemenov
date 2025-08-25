@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Михаил Семёнов - Заместитель генерального директора по ИТ НПП ТЭК. Опыт в управлении проектами, автоматизации и развитии ИТ-инфраструктуры.">
+    <title>Главная</title>
+    <link rel="icon" href="img/icon.png" type="image/x-icon">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-blue: #233c95;
+            --secondary-blue: #3b82f6;
+            --light-blue: #dbeafe;
+            --dark-text: #1f2937;
+            --light-text: #6b7280;
+            --white: #ffffff;
+            --light-gray: #f8fafc;
+            --border-color: #e5e7eb;
+            
+            --font-primary: 'Inter', sans-serif;
+            
+            --border-radius: 10px; 
+            --shadow: 0 3px 6px rgba(0, 0, 0, 0.08); 
+            
+        
+            --scale-factor: 1.1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.7; 
+            color: var(--dark-text);
+            background: var(--white);
+            font-size: calc(16px * var(--scale-factor)); 
+        }
+
+        .container {
+            max-width: 1100px; 
+            margin: 0 auto;
+            padding: 0 1.5rem; 
+        }
+
+        /* Header */
+        header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.3rem 0; 
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1.3rem; 
+            text-decoration: none;
+            color: var(--dark-text);
+        }
+
+        .logo img {
+            width: 60px; 
+            height: 60px; 
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .logo-text {
+            font-size: 1.45rem; 
+            font-weight: 600;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.8rem; 
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--dark-text);
+            font-weight: 500;
+            transition: all 0.2s ease;
+            font-size: 1.1rem; 
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-blue);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem; 
+            cursor: pointer;
+        }
+
+        /* Enhanced Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: var(--dark-text);
+            padding: 5rem 0;
+            min-height: 700px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 500px;
+            gap: 4rem;
+            align-items: center;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .hero-card {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #1e40af 100%);
+            color: var(--white);
+            padding: 2rem 2.5rem;
+            border-radius: 20px;
+            position: relative;
+            font-size: 1.15rem;
+            font-weight: 500;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            transform: translateX(0);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(35, 60, 149, 0.3);
+        }
+
+        .hero-card:hover {
+            transform: translateX(10px) translateY(-3px);
+            box-shadow: 0 8px 25px rgba(35, 60, 149, 0.4);
+        }
+
+        .hero-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .hero-right {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-image-container {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .hero-image-container::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(147, 51, 234, 0.2));
+            border-radius: 25px;
+            z-index: -1;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-image:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-name {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--dark-text);
+            margin-bottom: 0.8rem;
+            background: linear-gradient(135deg, var(--dark-text), var(--primary-blue));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-title {
+            font-size: 1.3rem;
+            color: var(--light-text);
+            font-weight: 500;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* About Cards */
+        .about-section {
+            padding: 3.6rem 0; 
+            background: var(--light-gray);
+        }
+
+        .section-title {
+            font-size: 2.4rem; 
+            text-align: center;
+            margin-bottom: 2.4rem; 
+            color: var(--dark-text);
+        }
+
+        .about-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 1.8rem; 
+        }
+
+        .about-card {
+            background: var(--white);
+            padding: 1.8rem; 
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: all 0.2s ease;
+            border-left: 5px solid var(--primary-blue); 
+        }
+
+        .about-card:hover {
+            transform: translateY(-4px); 
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12); 
+        }
+
+        .about-card h3 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem; 
+            font-size: 1.35rem; 
+        }
+        
+        .about-card p {
+            font-size: 1.1rem; 
+        }
+
+        /* Company Section */
+        .company-section {
+            padding: 3.6rem 0; 
+            background: var(--white);
+        }
+
+        .company-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem; 
+        }
+
+        .company-image img {
+            width: 100%;
+            border-radius: 100px;
+            box-shadow: var(--shadow);
+        }
+
+        .company-text h2 {
+            font-size: 2.1rem; 
+            margin-bottom: 1.3rem; 
+            color: var(--dark-text);
+        }
+
+        .company-text p {
+            margin-bottom: 1.8rem; 
+            color: var(--light-text);
+            font-size: 1.1rem; 
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.9rem 1.8rem; 
+            background: var(--primary-blue);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            transition: all 0.2s ease;
+            font-size: 1.1rem;
+        }
+
+        .btn:hover {
+            background: #1c2f7a;
+            transform: translateY(-3px);
+        }
+
+        /* Certificates */
+        .certificates-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        
+        .certificates-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .certificate-card {
+            width: 280px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .certificate-image {
+            width: 100%;
+            height: 180px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #eee;
+        }
+        
+        .certificate-card p {
+            margin: 0;
+            font-size: 16px;
+            color: #444;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 3.6rem 0; 
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+        
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem; 
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); 
+            gap: 1.8rem; 
+        }
+        
+        .contact-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            padding: 1.8rem; 
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .contact-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .contact-card-content {
+            display: flex;
+            align-items: center;
+            gap: 1.3rem; 
+        }
+        
+        .contact-icon {
+            width: 48px; 
+            height: 48px; 
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .contact-icon img {
+            width: 24px; 
+            height: 24px; 
+            filter: brightness(0) invert(1);
+        }
+        
+        .contact-details h4 {
+            font-size: 1.2rem; 
+            margin-bottom: 0.4rem; 
+        }
+        
+        .contact-details p {
+            font-size: 1.05rem; 
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-text);
+            color: var(--white);
+            padding: 2rem 0; 
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 2.5rem; 
+        }
+
+        .footer-left, .footer-right {
+            text-align: left;
+        }
+
+        footer h2 {
+            font-size: 1.4rem; 
+            margin-bottom: 1rem; 
+        }
+
+        footer p {
+            margin-bottom: 0.7rem; 
+            font-size: 1.05rem; 
+        }
+
+        footer a {
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--white);
+                flex-direction: column;
+                padding: 1.3rem; 
+                box-shadow: var(--shadow);
+                gap: 1.3rem; 
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 3rem;
+            }
+
+            .hero-right {
+                order: -1;
+            }
+
+            .hero-image {
+                max-width: 350px;
+            }
+
+            .hero-card {
+                font-size: 1rem;
+                padding: 1.5rem 2rem;
+                border-radius: 15px;
+            }
+
+            .hero-card:hover {
+                transform: translateX(5px) translateY(-2px);
+            }
+
+            .hero-name {
+                font-size: 1.8rem;
+            }
+
+            .hero-title {
+                font-size: 1.1rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem; 
+            }
+            
+            .footer-left, .footer-right {
+                text-align: center;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .company-content {
+                grid-template-columns: 1fr 1fr;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="https://npptec.ru">
+                        <img src="img/тэк.png" alt="Logo" style="width: auto; height: 60px; border-radius: 0;">
+                    </a>
+                    <a href="index.html" class="logo-text" style="text-decoration: none; color: inherit;">Михаил Семёнов</a>
+                </div>
+                
+                <nav>
+                    <ul class="nav-menu" id="navMenu">
+                        <li><a href="articles.html">Статьи</a></li>
+                        <li><a href="projects.html">Проекты</a></li>
+                        <li><a href="#company">Компания</a></li>
+                        <li><a href="#contact">Контакты</a></li>
+                    </ul>
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                        ☰
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-left">
+                        <div class="hero-card">
+                            Развитие ИТ — мой приоритет. Автоматизация и инфраструктура — всё это должно стать частью бизнес-процессов компании.
+                        </div>
+                        <div class="hero-card">
+                            Считаю, что эффективная команда — это половина успеха любого проекта.
+                        </div>
+                        <div class="hero-card">
+                            Важно выстраивать взаимовыгодные отношения с партнёрами. Ценю надёжность, ответственность и готовность к долгосрочному сотрудничеству.
+                        </div>
+                    </div>
+                    <div class="hero-right">
+                        <div class="hero-image-container">
+                            <img src="img/Worker.png" alt="Михаил Семёнов" class="hero-image">
+                        </div>
+                        <h1 class="hero-name">Михаил Николаевич Семёнов</h1>
+                        <p class="hero-title">Заместитель генерального директора по ИТ НПП ТЭК</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="company-section" id="company">
+            <div class="container">
+                <div class="company-content">
+                    <div class="company-image">
+                        <img src="img/TEK.jpg" alt="НПП ТЭК">
+                    </div>
+                    <div class="company-text">
+                        <h2>О месте работы</h2>
+                        <p>НПП «Томская электронная компания» - современное инжиниринговое и производственное предприятие, предлагающее решения, продукцию и разработку программного обеспечения</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="certificates-section">
+        <h2 class="section-title">Сертификаты</h2>
+        
+        <div class="certificates-container">
+            <div class="certificate-card">
+                <img src="img/ser0.png" alt="SolidWorks" class="certificate-image">
+                <p>Внедрение современного ПО от SolidWorks</p>
+            </div>
+            
+            <div class="certificate-card">
+                <img src="img/ser1.png" alt="EnglB1" class="certificate-image">
+                <p>Общий английский язык В1</p>
+            </div>
+            
+            <div class="certificate-card">
+                <img src="img/ser2.png" alt="1C" class="certificate-image">
+                <p>1С:Концепция и Торговый функционал</p>
+            </div>
+            
+            <div class="certificate-card">
+                <img src="img/ser3.png" alt="1C" class="certificate-image">
+                <p>1С:Планирование и Бюджетирование</p>
+            </div>
+            
+            <div class="certificate-card">
+                <img src="img/ser4.png" alt="TechExp" class="certificate-image">
+                <p>Пользователь справочной системы "Техэксперт"</p>
+            </div>
+            
+            <div class="certificate-card">
+                <img src="img/ser5.jpg" alt="ITIL v3" class="certificate-image">
+                <p>Основы ITIL v3 2011</p>
+            </div>
+            
+            <div class="certificate-card">
+                <img src="img/ser6.png" alt="ITIL v3" class="certificate-image">
+                <p>Управление проектами компании</p>
+            </div>
+            
+            <div class="certificate-card">
+                <img src="img/ser7.png" alt="Transact-SQL" class="certificate-image">
+                <p>Создание запросов на языке Transact-SQL</p>
+            </div>
+            
+            <div class="certificate-card">
+                <img src="img/ser8.png" alt="MS SQL Server" class="certificate-image">
+                <p>Написание запросов в MS SQL Server 2008</p>
+            </div>
+        </div>
+    </section>
+
+        <section class="contact-section" id="contact">
+            <div class="container">
+                <h2 class="section-title" style="color: var(--white);">Контакты</h2>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-card">
+                            <div class="contact-card-content">
+                                <div class="contact-icon">
+                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z'/%3E%3C/svg%3E" alt="Email">
+                                </div>
+                                <div class="contact-details">
+                                    <h4>Email</h4>
+                                    <p>semyonovmn@gmail.com</p>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="contact-card">
+                            <div class="contact-card-content">
+                                <div class="contact-icon">
+                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z'/%3E%3C/svg%3E" alt="Phone">
+                                </div>
+                                <div class="contact-details">
+                                    <h4>Телефон</h4>
+                                    <p>+7(3822) 999-784</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-card" onclick="window.open('https://t.me/SemyonovMN', '_blank')">
+                            <div class="contact-card-content">
+                                <div class="contact-icon">
+                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.74 8.21c-.15.72-.54.89-1.1.56l-3-2.21-1.45 1.39c-.16.16-.3.3-.6.3l.21-3 5.57-5.07c.24-.22-.05-.34-.37-.12l-6.87 4.33-2.96-.92c-.72-.22-.73-.72.15-1.07l11.57-4.46c.45-.17.85.1.70.85z'/%3E%3C/svg%3E" alt="Telegram">
+                                </div>
+                                <div class="contact-details">
+                                    <h4>Telegram</h4>
+                                    <p>@SemyonovMN</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <h2><a href="index.html">Михаил Семёнов</a></h2>
+                    <p><a href="articles.html">Статьи</a></p>
+                    <p><a href="projects.html">Проекты</a></p>
+                </div>
+                <div class="footer-right">
+                    <h2>ООО НПП "ТЭК"</h2>
+                    <p>Сайт https://npptec.ru</a></p>
+                    <p>г. Томск, ул. Высоцкого, д. 33</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

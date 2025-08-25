@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статьи</title>
+    <link rel="icon" href="img/icon.png" type="image/x-icon">
+    <style>
+        :root {
+            --primary-blue: #233c95;
+            --secondary-blue: #3b82f6;
+            --light-blue: #dbeafe;
+            --dark-text: #1f2937;
+            --light-text: #6b7280;
+            --white: #ffffff;
+            --light-gray: #f8fafc;
+            --border-color: #e5e7eb;
+            
+            --font-primary: 'Inter', sans-serif;
+            
+            --border-radius: 10px; 
+            --shadow: 0 3px 6px rgba(0, 0, 0, 0.08); 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            width: 100%;
+            flex: 1 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+        }
+
+        .logo {
+            margin-bottom: 20px;
+        }
+
+        .logo img {
+            max-height: 70px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: #233c95;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #4a5568;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .article-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .article-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 3px solid #233c95;
+        }
+
+        .article-info {
+            padding: 25px;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .article-title {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            color: #233c95;
+        }
+
+        .article-category {
+            color: #718096;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .article-excerpt {
+            color: #4a5568;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 0.85rem;
+            color: #718096;
+        }
+
+        .back-button {
+            display: block;
+            width: 200px;
+            margin: 50px auto;
+            padding: 15px 25px;
+            background: #233c95;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button:hover {
+            background: #1a2c7a;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.15);
+        }
+        
+        footer {
+            background: var(--dark-text);
+            color: var(--white);
+            padding: 2rem 0;
+            text-align: center;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .footer-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 2.5rem;
+        }
+
+        .footer-left, .footer-right {
+            text-align: left;
+        }
+
+        footer h2 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        footer p {
+            margin-bottom: 0.7rem;
+            font-size: 1.1rem;
+        }
+
+        footer a {
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            overflow: auto;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transform: translateY(-50px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 20px 30px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 12px 12px 0 0;
+            position: relative;
+        }
+
+        .modal-category {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            margin: 10px 0;
+        }
+
+        .modal-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-button:hover {
+            color: var(--light-blue);
+        }
+
+        .modal-body {
+            padding: 30px;
+            line-height: 1.8;
+        }
+
+        .modal-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .modal-text {
+            font-size: 1.1rem;
+            color: #4a5568;
+        }
+
+        @media (max-width: 900px) {
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 90%;
+                margin: 10% auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .page-subtitle {
+                font-size: 1.1rem;
+                padding: 0 15px;
+            }
+            
+            .back-button {
+                width: 180px;
+                margin: 40px auto;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                text-align: center;
+            }
+            
+            .footer-left, .footer-right {
+                text-align: center;
+            }
+            
+            .modal-title {
+                font-size: 1.5rem;
+            }
+            
+            .modal-header {
+                padding: 15px 20px;
+            }
+            
+            .modal-body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <a href="https://npptec.ru">
+                    <img src="img/тэк.png" alt="Логотип компании">
+                </a>
+            </div>
+            <h1>Статьи</h1>
+            <p class="page-subtitle">Экспертные материалы о цифровизации, IT-решениях и автоматизации бизнес-процессов</p>
+        </header>
+
+        <main>
+            <div class="articles-grid">
+                <div class="article-card" data-article="1">
+                    <img src="img/article.jpeg" alt="Цифровизация" class="article-image">
+                    <div class="article-info">
+                        <h3 class="article-title">Томское предприятие в тренде цифровизации</h3>
+                        <p class="article-category">Цифровизация</p>
+                        <p class="article-excerpt">Как НПП ТЭК внедряет современные IT-решения для оптимизации бизнес-процессов и повышения эффективности производства.</p>
+                        <div class="article-meta">
+                            <span>6 марта 2022</span>
+                            <span>5 мин чтения</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="article-card" data-article="2">
+                    <img src="img/изображение_2024-07-22_132901936.png" alt="Автоматизация" class="article-image">
+                    <div class="article-info">
+                        <h3 class="article-title">«Томская Электронная Компания» внедрила около тридцати решений в сфере цифровизации бизнеса</h3>
+                        <p class="article-category">Автоматизация</p>
+                        <p class="article-excerpt">30 решений в сфере цифровизации бизнеса.</p>
+                        <div class="article-meta">
+                            <span>4 марта 2022</span>
+                            <span>4 мин чтения</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="article-card" data-article="3">
+                    <img src="img/topic2.png" alt="IT-управление" class="article-image">
+                    <div class="article-info">
+                        <h3 class="article-title">Softline и Microsoft заключили соглашение Enterprise Agreement с ООО НПП ТЭК</h3>
+                        <p class="article-category">IT-управление</p>
+                        <p class="article-excerpt">О сотрудничестве с ведущими IT-компаниями и преимуществах корпоративного лицензирования программного обеспечения.</p>
+                        <div class="article-meta">
+                            <span>30 июля 2012</span>
+                            <span>6 мин чтения</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="article-card" data-article="4">
+                    <img src="img/MS-DAX.jpg" alt="ERP-системы" class="article-image">
+                    <div class="article-info">
+                        <h3 class="article-title">НПП «Томская электронная компания» и «Утилекс АйТи» подводят итоги первого этапа внедрения ERP-системы</h3>
+                        <p class="article-category">ERP-системы</p>
+                        <p class="article-excerpt">Первый этап автоматизации процессов учета и планирования материальных ресурсов для разработки новых продуктов.</p>
+                        <div class="article-meta">
+                            <span>27 февраля 2009</span>
+                            <span>5 мин чтения</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="index.html" class="back-button">← На главную</a>
+        </main>
+    </div>
+    
+    <div class="modal" id="articleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close-button">&times;</span>
+                <div class="modal-category" id="modalCategory">Категория</div>
+                <h2 class="modal-title" id="modalTitle">Заголовок статьи</h2>
+                <div class="modal-meta">
+                    <span id="modalDate">Дата</span>
+                    <span id="modalReadTime">Время чтения</span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <img id="modalImage" src="" alt="" class="modal-image">
+                <div class="modal-text" id="modalText">
+                    Текст статьи будет загружен здесь...
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <h2><a href="index.html">Михаил Семёнов</a></h2>
+                    <p><a href="articles.html">Статьи</a></p>
+                    <p><a href="projects.html">Проекты</a></p>
+                </div>
+                <div class="footer-right">
+                    <h2>ООО НПП "ТЭК"</h2>
+                    <p><a href="https://www.npptec.ru/">Сайт https://npptec.ru</a></p>
+                    <p>г. Томск, ул. Высоцкого, д. 33</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const articlesData = {
+            1: {
+                title: "Томское предприятие в тренде цифровизации",
+                category: "Цифровизация",
+                date: "6 марта 2022",
+                readTime: "5 мин чтения",
+                image: "img/article.jpeg",
+                content: "<p>2 марта 2022 года Президент Российской Федерации подписал Указ № 83 «О мерах по обеспечению ускоренного развития отрасли информационных технологий в РФ». Специалисты Отдела информационно-технического обеспечения НПП «Томская электронная компания» ведут около 30 систем электронной отчетности и различных электронных сервисов по разным направлениям — метрология, финансы, тендеры, взаимодействие с заказчиками и поставщиками и др.</p><p>Томская электронная компания одной из первых внедрила систему на базе технологии сотовой связи VoLTE, и теперь работник может одновременно получать данные с компьютера и параллельно голосовую информацию от коллеги с другого участка, где выполняются работы. ТЭК активно взаимодействует с сотовыми операторами по ускорению процесса внедрения технологии связи нового поколения 5 G.</p><p>В 2020 году совместно с Томским политехническим университетом и с использованием оборудования и программного обеспечения компаний «Мегафон» и НПП ТЭК началась реализация проекта по созданию «умного цеха» на базе интернета вещей, работающего с использованием технологий NB-IoT и систем технического зрения, для улучшения результатов и контроля качества производимой продукции.</p><p>В организационной системе предприятия используется электронный документооборот на базе отечественного программного обеспечения DocsVision. На повестке — внедрение электронного архива в конструкторской деятельности, когда речь идет о доработке, запуске серийного продукта и др.  Кроме того, ТЭК приобрела специальное программное решение – сервер, который обеспечит создание электронно-цифровой подписи (ЭЦП) сотрудников без привлечения сторонних организаций.</p><p>По словам начальника Отдела информационно-технического обеспечения Михаила Семёнова, «в ближайшее время планируется увеличить количество сотрудников, работающих с программным PLM-комплексом SolidWorks. Необходимо ускорить развёртывание рабочих мест PDM на производстве для более оперативного получения актуальных данных и оптимизации бизнес-процессов. Прорабатываются вопросы по автоматизации рабочих мест с использованием самых современных аппаратных и программных решений. Рассматриваются различные варианты внедрения MES-систем и их дальнейшей интеграции с 1C:ЕRP. Ведётся проект по внедрению новой версии системы электронного документооборота в компании. Проводятся мероприятия по модернизации программного и аппаратного обеспечения на производстве с использованием самых современных решений».</p>"
+            },
+            2: {
+                title: "«Томская Электронная Компания» внедрила около тридцати решений в сфере цифровизации бизнеса",
+                category: "Автоматизация",
+                date: "4 марта 2022",
+                readTime: "4 мин чтения",
+                image: "img/изображение_2024-07-22_132901936.png",
+                content: "<p>Как следует из сообщения НПП «Томская электронная компания», специалисты отдела информационно-технического обеспечения предприятия используют около 30 систем электронной отчетности и различных цифровых сервисов. Отмечается, что цифровизация затронула метрологическое обеспечение, финансовый блок, работу с тендерами, взаимодействие с заказчиками и поставщиками и другие процессы внутри компании.</p><p>В частности, предприятие одним из первых внедрило систему, основанную на технологии сотовой связи VoLTE – благодаря ей работник может одновременно получать данные с компьютера и голосовую информацию из другого производственного участка. В настоящее время НПП «ТЭК» ведет активную работу по взаимодействию с сотовыми операторами и ускорению внедрения технологии 5G.</p><p><i>«В 2020 году совместно с Томским политехническим университетом и с использованием оборудования и ПО компаний «Мегафон» в НПП ТЭК началась реализация проекта по созданию «умного цеха» на базе интернета вещей, работающего с использованием технологий NB-IoT и систем технического зрения. Работы ведутся в целях улучшения результатов и контроля качества производимой продукции»,</i> – говорится в сообщении компании.</p><p>Предприятие использует электронный документооборот, функционирующий на базе отечественного ПО DocsVision. В ближайших планах значится внедрение электронного архива, используемого в конструкторской деятельности – а именно в процессах доработки, запуска серийного продукта и т.д. Кроме того, компанией приобретен сервер, который позволит создавать электронно-цифровые подписи (ЭЦП) сотрудников без привлечения сторонних организаций.</p><p><i>– В краткосрочной перспективе компания планирует увеличить количество сотрудников, работающих с программным PLM-комплексом SolidWorks, помогающим управлять жизненным циклом изделия. Нам необходимо ускорить развертывание рабочих мест PDM (системы управления данными об изделии – ред.) на производстве для более оперативного получения актуальных данных и оптимизации бизнес-процессов. Прорабатываются вопросы по автоматизации рабочих мест с использованием самых современных аппаратных и программных решений. Рассматриваются различные варианты внедрения MES (системы управления производством – ред.) и их дальнейшей интеграции с 1C:ЕRP. Кроме того, ведется проект по внедрению новой версии системы электронного документооборота, проводятся мероприятия по модернизации программного и аппаратного обеспечения на производстве с использованием самых современных решений,</i> – рассказал начальник отдела информационно-технического обеспечения Михаил Семёнов.</p>"
+            },
+            3: {
+                title: "Softline и Microsoft заключили соглашение Enterprise Agreement с ООО НПП ТЭК",
+                category: "IT-управление",
+                date: "30 июля 2012",
+                readTime: "6 мин чтения",
+                image: "img/topic2.png",
+                content: "<p>Представительство компании Softline в Томске объявляет о заключении соглашения Microsoft Enterprise Agreement (EA) на поставку программного обеспечения Microsoft с ООО «Научно-производственное предприятие «Томская электронная компания» (ООО НПП ТЭК).</p><p>ООО НПП ТЭК – разработчик и поставщик интеллектуального электротехнического оборудования, приборов контроля, регулирования и управления, программно-технических средств автоматизации. Основными объектами автоматизации и сферой применения создаваемых устройств являются предприятия металлургической, химической, нефтехимической, нефтеперерабатывающей промышленности и магистральные трубопроводы. Гибкое современное производство и интеллектуальный потенциал ООО НПП ТЭК позволяют компании предлагать своим клиентам эффективные решения и гарантировать быстрое и качественное выполнение заказа любой сложности.</p><p>В рамках заключенного c Softline соглашения ООО НПП ТЭК лицензировало базовые продукты Microsoft для всех используемых компьютеров, при этом оплата будет производиться в виде ежегодных платежей в течение трех лет, что позволит избежать крупных единовременных инвестиций в приобретение программного обеспечения. По условиям договора заказчику также предоставляется пакет дополнительных бесплатных услуг по программе Software Assurance. Одним из основных преимуществ данной программы является бесплатная возможность использования самых последних версий продуктов Microsoft по мере их появления. Это позволяет компании минимизировать необходимость отслеживать используемые версии программных продуктов, которая, как правило, приводит к увеличению административных расходов и незапланированных трат на приобретение новых версий. Лицензирование всего парка компьютеров с возможностью переноса программного обеспечения с одного ПК на другой значительно снижает риск использования нелицензионного ПО.</p><p>«Программа корпоративного лицензирования Enterprise Agreement включает в себя не только поставку лицензионного программного обеспечения, но еще и комплекс дополнительных услуг, предоставляемых поставщиком, таких как техническая поддержка 24х7, обучение сотрудников, планирование внедрения решений Microsoft и ряд других, – говорит Константин Матвеев, руководитель представительства компании Softline в г. Томск. – В рамках корпоративных программ Microsoft c компанией Softline на долгосрочной основе сотрудничают многие крупные компании-лидеры в своих отраслях, и мы рады, что ООО НПП ТЭК вошло в их число».</p><p>«Мы считаем компанию Softline одним из самых компетентных поставщиков IT-услуг на рынке Томской области, и работа специалистов партнера в рамках данного соглашения – очередное тому подтверждение. Заключенный контракт полностью соответствует стратегическим интересам нашей компании как с точки зрения состава программных продуктов, так и с точки зрения условий работы», – отмечает Михаил Семёнов, заместитель начальника отдела информационных технологий ООО НПП ТЭК.</p>"
+            },
+            4: {
+                title: "НПП «Томская электронная компания» и «Утилекс АйТи» подводят итоги первого этапа внедрения ERP-системы",
+                category: "ERP-системы",
+                date: "27 февраля 2009",
+                readTime: "5 мин чтения",
+                image: "img/MS-DAX.jpg",
+                content: "<p>Научно-производственное предприятие «Томская Электронная Компания» и Компания «Утилекс АйТи», российский поставщик услуг в области ИТ и консалтинга, завершили первый этап внедрения системы управления предприятием на базе Microsoft Dynamics AX.</p><p>В результате первого этапа внедрения решена задача автоматизации процессов учета и планирования  материальных ресурсов компании для разработки новых продуктов, серийной продукции и проектной деятельности. За счет регистрации в системе отделом маркетинга клиентских заявок, формирования коммерческих предложений и ведения клиентской базы, а отделом материально-технического снабжения заказов поставщикам,  повысилась эффективность планирования ресурсов. Производственно-диспетчерский отдел получил инструмент для оперативного расчета потребностей в полуфабрикатах на основании заказов на продукцию и автоматического создания производственных заказов.</p><p>В ходе проекта специалисты «Утилекс АйТи» реализовали ряд модификаций для упрощения и оптимизации работы сотрудников НПП «ТЭК». Был разработан механизм составления отчетов, позволяющих осуществлять контроль деятельности подразделений компании: автоматическое формирование журналов комплектации под производственные заказы, формирование платежей поставщикам на основании счетов, расчет плановых калькуляций и т.д. Для снижения количества ошибок в результате многократного ввода данных, система Microsoft Dynamics AX интегрирована с системами электронного документооборота DocsVision и «Банк-Клиент», частично с системой бухгалтерского учета «1С». ERP-система стала дополнительным катализатором для оптимизации существующих бизнес-процессов и решения ряда организационных вопросов на предприятии.</p><p>В настоящий момент, подразделения компании, включенные в границы проекта, работают в едином информационном пространстве: используют единые справочники поставщиков и клиентов, работают с единым реестром производственных заказов. Внедрение ERP-системы послужило толчком для создания единой системы нормативно-справочной информации в компании, и сейчас ведется работа в этом направлении.</p><p>Михаил Семенов, руководитель проекта со стороны НПП «ТЭК», делится: «Специалисты компании, не охваченные проектом, увидели значительные отличия возможностей новой системы от существующих. В связи с этим рамки проекта расширились за счет активного включения подразделений, чья работа напрямую связана с производством, а также проектных отделов и сервисной службы. В итоге во внедрении была задействована большая группа сотрудников нашей компании, что послужило увеличению числа ключевых пользователей системы. Качество управления операционной деятельностью и информационное взаимодействие между подразделениями заметно улучшилось после первого этапа внедрения и следующий шаг — продолжить автоматизацию управления проектами в ERP-системе, поскольку на сегодняшний день для этого используются другие программные продукты Microsoft».</p><p>Елена Кошкарова, руководитель проекта со стороны компании «Утилекс АйТи», комментирует:  «Microsoft Dynamics AX с одной стороны — платформа, предоставляющая дополнительные возможности дальнейшего расширения и реализации особенностей производства компании. С другой стороны, в ней собраны лучшие мировые бизнес-практики, помогающие оперативно принимать обоснованные управленческие решения. Именно эти факторы обусловили выбор томского предприятия и позволили выполнить поставленные на первом этапе внедрения задачи и заложить фундамент для последующих этапов».</p>"
+            }
+        };
+
+        const modal = document.getElementById('articleModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalCategory = document.getElementById('modalCategory');
+        const modalDate = document.getElementById('modalDate');
+        const modalReadTime = document.getElementById('modalReadTime');
+        const modalImage = document.getElementById('modalImage');
+        const modalText = document.getElementById('modalText');
+        const closeButton = document.querySelector('.close-button');
+
+        document.querySelectorAll('.article-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const articleId = this.getAttribute('data-article');
+                const article = articlesData[articleId];
+                
+                if (article) {
+                    modalTitle.textContent = article.title;
+                    modalCategory.textContent = article.category;
+                    modalDate.textContent = article.date;
+                    modalReadTime.textContent = article.readTime;
+                    modalImage.src = article.image;
+                    modalImage.alt = article.title;
+                    modalText.innerHTML = article.content;
+                    
+                    modal.classList.add('show');
+                    document.body.style.overflow = 'hidden'; 
+                }
+            });
+        });
+
+        closeButton.addEventListener('click', function() {
+            modal.classList.remove('show');
+            document.body.style.overflow = ''; 
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && modal.classList.contains('show')) {
+                modal.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+</body>
+</html>
